@@ -1,4 +1,6 @@
 import argparse
+import os
+from subprocess import check_output
 
 import fire
 from pigar.reqs import file_import_modules, is_stdlib
@@ -9,7 +11,7 @@ from pyminifier.token_utils import listified_tokenizer
 dockerfile = """
 FROM python:3.6
 
-# MAINTAINER {{maintainer}}
+MAINTAINER {maintainer}
 
 WORKDIR /app
 
@@ -27,6 +29,15 @@ def read_from(path):
         return fp.read()
 
 
+def maintainer():
+    try:
+        name = check_output('git config user.name', shell=True).decode('utf-8').strip(' \n')
+        email = check_output('git config user.email', shell=True).decode('utf-8').strip(' \n')
+        return '{} <{}>'.format(name, email)
+    except:
+        user = os.getenv('USER')
+        return '{user} <{user}@localhost>'.format(user=user)
+
 
 def generate(module):
 
@@ -37,7 +48,7 @@ def generate(module):
     tokens = listified_tokenizer(source)
     compressed = minify(tokens, argparse.Namespace(tabs=False))
     compressed = compressed.replace('\"', '\'').replace('\n', '1l')
-    print(dockerfile.format(requirements=req, body=compressed))
+    print(dockerfile.format(requirements=req, body=compressed, maintainer=maintainer()))
 
 
 fire.Fire(generate)
