@@ -1,11 +1,9 @@
-import argparse
+import base64
 import os
 from subprocess import CalledProcessError, check_output
 
 import fire
 from pigar.reqs import file_import_modules, is_stdlib
-from pyminifier.minification import minify
-from pyminifier.token_utils import listified_tokenizer
 
 
 dockerfile = """
@@ -17,11 +15,10 @@ WORKDIR /app
 
 RUN pip install {requirements}
 
+ENV PY_LIB "{body}"
+RUN python -c "import os,base64;b=os.getenv('PY_LIB');b=base64.b64decode(b);print(b.decode('utf-8'))" | tee app.py
 
-ENV PY_EXEC "{body}"
-
-CMD python -c "import os;b=os.getenv('PY_EXEC');b=b.replace('1l', '\\n');exec(b)"
-
+CMD python app.py
 """
 
 
@@ -31,8 +28,13 @@ def read_from(path):
 
 
 def write_to(path, data):
+    assert not isinstance(data, bytes), "No byte string accepted"
     with open(path, "w") as fp:
         return fp.write(data)
+
+
+def pack_buffer(buf):
+    return base64.b64encode(buf.encode('utf-8')).decode('utf-8')
 
 
 def maintainer():
@@ -54,9 +56,7 @@ def generate(module, tag=None):
     modules = file_import_modules('', source)[0]
     req = [m for m, v in modules.items() if not is_stdlib(m)]
     req = ' '.join(req)
-    tokens = listified_tokenizer(source)
-    compressed = minify(tokens, argparse.Namespace(tabs=False))
-    compressed = compressed.replace('\"', '\'').replace('\n', '1l')
+    compressed = pack_buffer(source)
     artifact = dockerfile.format(requirements=req, body=compressed, maintainer=maintainer())
     if not tag:
         print(artifact)

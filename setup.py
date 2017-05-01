@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from setuptools import find_packages, setup
+from setuptools import setup
 
 try:
     long_description = open("README.md").read()
@@ -15,7 +15,7 @@ setup(
     author="Alex Myasoedov",
     author_email="msoedov@gmail.com",
     packages=['dockerify'],
-    install_requires=['trafaret'],
+    install_requires=['fire', 'pigar'],
     long_description=long_description,
     classifiers=[
         "Programming Language :: Python",
