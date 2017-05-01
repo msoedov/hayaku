@@ -7,7 +7,7 @@ from pigar.reqs import file_import_modules, is_stdlib
 
 
 dockerfile = """
-FROM python:3.6
+FROM python:{py_version}
 
 MAINTAINER {maintainer}
 
@@ -47,7 +47,7 @@ def maintainer():
         return '{user} <{user}@localhost>'.format(user=user)
 
 
-def generate(module, tag=None):
+def generate(module, tag=None, py_version='3.6'):
     """
     Pack a python module into Dockerfile one liner
     Build it if tag specified.
@@ -57,7 +57,10 @@ def generate(module, tag=None):
     req = [m for m, v in modules.items() if not is_stdlib(m)]
     req = ' '.join(req)
     compressed = pack_buffer(source)
-    artifact = dockerfile.format(requirements=req, body=compressed, maintainer=maintainer())
+    artifact = dockerfile.format(requirements=req,
+                                 body=compressed,
+                                 maintainer=maintainer(),
+                                 py_version=py_version)
     if not tag:
         print(artifact)
     else:
