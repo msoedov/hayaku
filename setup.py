@@ -8,14 +8,17 @@ except IOError:
 """
 
 setup(
-    name="dockerify",
+    name="hayaku",
     version="0.1.1",
     description="Hayaku - tooling for generating dockerfile",
     license="MIT",
     author="Alex Myasoedov",
     author_email="msoedov@gmail.com",
-    packages=['hayaku'],
+    packages=['.'],
     install_requires=['fire', 'pigar'],
+    entry_points={
+        'console_scripts': ['hayaku=main:main'],
+    },
     long_description=long_description,
     classifiers=[
         "Programming Language :: Python",

@@ -69,4 +69,9 @@ def generate(module, tag=None, py_version='3.6', docker_name='Docker.gen'):
         os.remove(dockerfile)
 
 
-fire.Fire(generate)
+def main():
+    fire.Fire(generate)
+
+
+if __name__ == '__main__':
+    main()
