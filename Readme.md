@@ -4,7 +4,7 @@ Lightweight Python utility to generate Dockerfile and distribute tiny python app
 
 
 ## Why?
-Disclaimer this repo being made just for fun in certain circumstances and have non opinionated approach for doing such things.
+Disclaimer this repo being made just for fun in certain circumstances and have non opinionated approach for doing things.
 The purpose of this is to wrap your existing tooling written in python into containers and then ship/distribute it without complicated
 workflow around git repo's.
 
@@ -32,7 +32,7 @@ python main.py app.py
 
 FROM python:3.6
 
-MAINTAINER Alex Myasoedov
+MAINTAINER Erlich Bachman
 
 WORKDIR /app
 
