@@ -47,7 +47,7 @@ def maintainer():
         return '{user} <{user}@localhost>'.format(user=user)
 
 
-def generate(module, tag=None, py_version='3.6'):
+def generate(module, tag=None, py_version='3.6', docker_name='Docker.gen'):
     """
     Pack a python module into Dockerfile one liner
     Build it if tag specified.
@@ -61,13 +61,12 @@ def generate(module, tag=None, py_version='3.6'):
                                  body=compressed,
                                  maintainer=maintainer(),
                                  py_version=py_version)
+    write_to(docker_name, artifact)
     if not tag:
         print(artifact)
     else:
-        docker_name = 'Docker.gen'
-        write_to(docker_name, artifact)
         os.system('docker build -t {tag} -f {docker_name} .'.format(tag=tag, docker_name=docker_name))
-        os.remove(docker_name)
+        os.remove(dockerfile)
 
 
 fire.Fire(generate)
