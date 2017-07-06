@@ -10,11 +10,11 @@ except IOError:
 setup(
     name="dockerify",
     version="0.1.1",
-    description="Dockerify - tooling for generating dockerfile",
+    description="Hayaku - tooling for generating dockerfile",
     license="MIT",
     author="Alex Myasoedov",
     author_email="msoedov@gmail.com",
-    packages=['dockerify'],
+    packages=['hayaku'],
     install_requires=['fire', 'pigar'],
     long_description=long_description,
     classifiers=[

@@ -1,6 +1,6 @@
 
 
-Lightweight Python utility to generate Dockerfile and distribute tiny python apps without including sources
+Hayaku - lightweight Python utility to generate Dockerfile and distribute tiny python apps without including sources
 
 
 ## Why?
