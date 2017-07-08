@@ -3,7 +3,7 @@ import os
 from subprocess import CalledProcessError, check_output
 
 import fire
-from pigar.reqs import file_import_modules, is_stdlib
+from pipreqs.pipreqs import get_all_imports
 
 
 dockerfile = """
@@ -53,8 +53,7 @@ def generate(module, tag=None, py_version='3.6', docker_name='Docker.gen'):
     Build it if tag specified.
     """
     source = read_from(module)
-    modules = file_import_modules('', source)[0]
-    req = [m for m, v in modules.items() if not is_stdlib(m)]
+    req = get_all_imports('./')
     req = ' '.join(req)
     compressed = pack_buffer(source)
     artifact = dockerfile.format(requirements=req,
@@ -66,7 +65,7 @@ def generate(module, tag=None, py_version='3.6', docker_name='Docker.gen'):
         print(artifact)
     else:
         os.system('docker build -t {tag} -f {docker_name} .'.format(tag=tag, docker_name=docker_name))
-        os.remove(dockerfile)
+        os.remove(docker_name)
 
 
 def main():
