@@ -9,13 +9,13 @@ except IOError:
 
 setup(
     name="hayaku",
-    version="0.1.1",
+    version="0.1.2",
     description="Hayaku - tooling for generating dockerfile",
     license="MIT",
     author="Alex Myasoedov",
     author_email="msoedov@gmail.com",
     packages=['.'],
-    install_requires=['fire', 'pigar'],
+    install_requires=['fire', 'pipreqs'],
     entry_points={
         'console_scripts': ['hayaku=main:main'],
     },
