@@ -53,7 +53,7 @@ CMD python app.py
 
 which you can ship as a file, build and push image to private docker registry, etc...
 
-## Seriosly ?
+## Seriously ?
  It's up to you. It worked for my limited usecase and I hope it might be helpfull for somebody else. As it said in disclamer: this repo being made just for fun in certain circumstances and have non opinionated approach for doing such things.
 
 
