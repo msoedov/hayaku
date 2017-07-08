@@ -2,6 +2,13 @@
 
 Hayaku - lightweight Python utility to generate Dockerfile and distribute tiny python apps without including sources
 
+[![Build Status](https://travis-ci.org/msoedov/hayaku.svg?branch=master)](https://travis-ci.org/msoedov/hayaku)
+
+## Instalation
+
+```shell
+pip install hayaku
+```
 
 ## Why?
 Disclaimer this repo being made just for fun in certain circumstances and have non opinionated approach for doing things.
@@ -28,7 +35,7 @@ RUN python -c "import os,base64;b=os.getenv('PY_LIB');b=base64.b64decode(b);prin
 4. So the final generated Dockerfile will looks like this
 
 ```shell
-python main.py app.py
+hayaku app.py
 
 FROM python:3.6
 
